@@ -1,0 +1,89 @@
+{
+  "name": "alfasix/alfakit-api",
+  "description": "Automatic, secure JSON REST APIs for AlfaKit resources: CRUD that reuses the resource form's validation, policies, tenancy, personal access tokens with abilities, rate limiting, RFC 7807 errors, ETags, idempotency keys and a generated OpenAPI 3.1 document with an in-panel API reference.",
+  "keywords": [
+    "laravel",
+    "alfakit",
+    "api",
+    "rest",
+    "openapi",
+    "tokens"
+  ],
+  "homepage": "https://alfakit.dev/docs/plugins/api",
+  "type": "library",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Alfa Six",
+      "homepage": "https://alfasixbh.com",
+      "role": "Developer"
+    }
+  ],
+  "support": {
+    "issues": "https://github.com/alfasixbh/alfakit/issues",
+    "source": "https://github.com/alfasixbh/alfakit"
+  },
+  "require": {
+    "php": "^8.3",
+    "alfasix/alfakit": "^0.1|@dev"
+  },
+  "suggest": {
+    "laravel/sanctum": "Not required: the plugin ships its own hashed personal access tokens. Implement the TokenRepository contract to issue Sanctum tokens instead."
+  },
+  "autoload": {
+    "psr-4": {
+      "AlfaSix\\AlfakitApi\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "AlfaSix\\AlfakitApi\\Tests\\": "tests/"
+    }
+  },
+  "extra": {
+    "laravel": {
+      "providers": [
+        "AlfaSix\\AlfakitApi\\AlfakitApiServiceProvider"
+      ]
+    },
+    "alfakit": {
+      "version": "^0.1",
+      "frontend": null,
+      "showcase": {
+        "demoPath": "api-docs",
+        "tour": [
+          "Open Settings > API",
+          "Browse the generated OpenAPI reference",
+          "Create a personal access token with abilities"
+        ],
+        "clips": [
+          "react-light",
+          "react-dark",
+          "vue-light",
+          "vue-dark",
+          "svelte-light",
+          "svelte-dark"
+        ],
+        "worksWith": [
+          "webhooks",
+          "shield",
+          "teams"
+        ],
+        "highlights": [
+          "CRUD JSON endpoints from your resources",
+          "Reuses form validation and policies",
+          "Personal access tokens with abilities",
+          "Rate limiting, ETags and idempotency keys",
+          "RFC 7807 errors",
+          "OpenAPI 3.1 document and in-panel reference",
+          "Tenant-aware routes"
+        ]
+      }
+    }
+  },
+  "config": {
+    "sort-packages": true
+  },
+  "minimum-stability": "stable",
+  "prefer-stable": true
+}
