@@ -8,6 +8,7 @@ use AlfaSix\Alfakit\Tests\TestCase as AlfakitTestCase;
 use AlfaSix\AlfakitApi\AlfakitApiServiceProvider;
 use AlfaSix\AlfakitApi\Tests\Fixtures\Models\ApiUser;
 use AlfaSix\AlfakitApi\Tests\Fixtures\Models\Article;
+use AlfaSix\AlfakitApi\Tests\Fixtures\Panels\ApiEmptyPanelProvider;
 use AlfaSix\AlfakitApi\Tests\Fixtures\Panels\ApiPanelProvider;
 use AlfaSix\AlfakitApi\Tests\Fixtures\Panels\ApiTenantPanelProvider;
 use AlfaSix\AlfakitApi\Tests\Fixtures\Panels\ApiTokenTenantPanelProvider;
@@ -31,6 +32,7 @@ abstract class TestCase extends AlfakitTestCase
             ApiPanelProvider::class,
             ApiTenantPanelProvider::class,
             ApiTokenTenantPanelProvider::class,
+            ApiEmptyPanelProvider::class,
         ];
     }
 

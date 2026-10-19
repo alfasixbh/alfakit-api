@@ -100,6 +100,23 @@ it('creates full-access tokens and refuses tokens without abilities', function (
         ->and(ApiToken::query()->sole()->getExpiresAt())->toBeNull();
 });
 
+it('offers only full-access tokens while no resource is exposed', function (): void {
+    actingAs(apiUser());
+
+    // Right after `alfakit:add api`: "Selected abilities" had nothing to select and the
+    // form answered "Choose at least one ability."
+    $props = apiPageProps('/api-empty/api-tokens');
+    $response = get('/api-empty/_alfakit/actions/modal?'.http_build_query(['token' => $props['token'], 'component' => 'page', 'action' => 'createToken']), ['Referer' => 'http://localhost/api-empty/api-tokens']);
+    $access = collect($response->json('form.components'))->firstWhere('name', 'access');
+
+    expect($access['options'] ?? null)->toBe([['value' => 'all', 'label' => 'Full access']])
+        ->and($response->json('form.state.access'))->toBe('all');
+
+    apiRunAction('/api-empty', '/api-empty/api-tokens', 'page', 'createToken', ['name' => 'Everything', 'expires_in' => '30', 'access' => 'all'])->assertOk();
+
+    expect(ApiToken::query()->sole()->getAbilities())->toBe(['*']);
+});
+
 it('lists and revokes only the user\'s own tokens', function (): void {
     $ada = apiUser('Ada');
     $bob = apiUser('Bob');

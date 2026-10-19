@@ -79,7 +79,7 @@ final class ApiRoutes
                     ->group(static function (Router $router) use ($panel, $plugin, $defaults): void {
                         foreach ($plugin->getResourceApis($panel) as $slug => $api) {
                             $resourceDefaults = [...$defaults, ApiRequest::RESOURCE_PARAMETER => $slug];
-                            $name = 'resources.'.$slug.'.';
+                            $name = 'resources.'.str_replace('/', '.', trim((string) $slug, '/')).'.';
 
                             if ($api->getBulkActions() !== []) {
                                 $router->post("/{$slug}/bulk/{action}", [ResourceController::class, 'bulk'])->name($name.'bulk')->setDefaults($resourceDefaults);

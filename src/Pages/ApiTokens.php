@@ -149,12 +149,13 @@ class ApiTokens extends Page
                 ->required(),
             Radio::make('access')
                 ->label(__('alfakit-api::api.tokens.fields.access'))
+                // Without exposed resources there are no abilities to pick: full access only.
                 ->options([
                     'all' => __('alfakit-api::api.tokens.fields.access_all'),
-                    'custom' => __('alfakit-api::api.tokens.fields.access_custom'),
+                    ...($resources === [] ? [] : ['custom' => __('alfakit-api::api.tokens.fields.access_custom')]),
                 ])
                 ->helperText(__('alfakit-api::api.tokens.fields.access_help'))
-                ->default('custom')
+                ->default($resources === [] ? 'all' : 'custom')
                 ->required()
                 ->live(),
         ];
