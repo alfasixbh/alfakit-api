@@ -185,3 +185,20 @@ it('describes the current token', function (): void {
         ->assertJsonPath('data.user.name', 'Linus')
         ->assertJsonPath('data.tenant', null);
 });
+
+it('leaves file upload fields out of the API: not accepted, not in the OpenAPI input', function (): void {
+    $token = apiToken(apiUser('Admin', admin: true));
+
+    // An upload field's state is a panel upload token; over the API the key is ignored like any non-writable key.
+    api('POST', '/api/v1/articles', $token, ['title' => 'With file', 'attachment' => ['photo.png']])->assertCreated();
+    expect(Article::query()->where('title', 'With file')->value('attachment'))->toBeNull();
+
+    $article = article(['title' => 'Kept file', 'attachment' => 'files/kept.pdf']);
+    api('PATCH', "/api/v1/articles/{$article->getKey()}", $token, ['title' => 'Kept file 2', 'attachment' => ['other.png']])->assertOk();
+    expect($article->fresh()->attachment)->toBe('files/kept.pdf')
+        ->and($article->fresh()->title)->toBe('Kept file 2');
+
+    $document = api('GET', '/api/v1/openapi.json', $token)->assertOk()->json();
+    expect($document['components']['schemas']['ArticleCreateInput']['properties'])->not->toHaveKey('attachment')
+        ->and($document['components']['schemas']['ArticleUpdateInput']['properties'])->not->toHaveKey('attachment');
+});

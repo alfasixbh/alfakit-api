@@ -171,8 +171,11 @@ class ApiTokens extends Page
         }
 
         if ($abilityFields !== []) {
+            // Full width: in the modal's two-column form a half-width cell squeezes the lists
+            // and their "Select all / Deselect all" links out of the modal.
             $components[] = Grid::make(['default' => 1, 'md' => 2])
                 ->schema($abilityFields)
+                ->columnSpanFull()
                 ->visible(static fn (Get $get): bool => $get('access') === 'custom');
         }
 

@@ -7,6 +7,7 @@ namespace AlfaSix\AlfakitApi\Tests\Fixtures\Resources;
 use AlfaSix\Alfakit\Actions\BulkAction;
 use AlfaSix\Alfakit\Actions\DeleteBulkAction;
 use AlfaSix\Alfakit\Forms\Components\DateTimePicker;
+use AlfaSix\Alfakit\Forms\Components\FileUpload;
 use AlfaSix\Alfakit\Forms\Components\Select;
 use AlfaSix\Alfakit\Forms\Components\Textarea;
 use AlfaSix\Alfakit\Forms\Components\TextInput;
@@ -38,6 +39,7 @@ class ArticleResource extends Resource
             Toggle::make('is_private'),
             DateTimePicker::make('published_at'),
             TextInput::make('secret_note'),
+            FileUpload::make('attachment'),
         ]);
     }
 

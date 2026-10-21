@@ -24,6 +24,7 @@ return new class extends Migration
             $table->boolean('is_featured')->default(false);
             $table->boolean('is_private')->default(false);
             $table->string('secret_note')->nullable();
+            $table->string('attachment')->nullable();
             $table->timestamp('published_at')->nullable();
             $table->timestamps();
         });

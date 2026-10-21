@@ -143,6 +143,23 @@ it('never exposes hidden attributes, even when a form field or include lists the
         ->and(array_keys($show->json('data')))->toBe(['id', 'title', 'status', 'body', 'is_featured', 'is_private', 'published_at', 'created_at', 'updated_at', 'author']);
 });
 
+it('keeps a hidden attribute an update leaves out, and never returns it', function (): void {
+    $user = apiUser('Hidden update');
+    $token = apiToken($user, ['*']);
+    $article = article(['secret_note' => 'keep', 'author_id' => $user->getKey()]);
+
+    $response = api('PATCH', '/api/v1/articles/'.$article->getKey(), $token, ['title' => 'T2'])->assertOk();
+
+    expect($article->refresh()->title)->toBe('T2')
+        ->and($article->secret_note)->toBe('keep')
+        ->and($response->getContent())->not->toContain('keep')->not->toContain('secret_note');
+
+    // Sent, it is written.
+    api('PATCH', '/api/v1/articles/'.$article->getKey(), $token, ['secret_note' => 'changed'])->assertOk();
+
+    expect($article->refresh()->secret_note)->toBe('changed');
+});
+
 // ---------------------------------------------------------------- HTTP features
 
 it('rate limits per token with headers and a 429 problem', function (): void {

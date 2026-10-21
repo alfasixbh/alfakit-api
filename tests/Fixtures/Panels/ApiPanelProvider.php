@@ -28,6 +28,7 @@ class ApiPanelProvider extends PanelProvider
                     ->resources([
                         ResourceApi::make(ArticleResource::class)
                             ->includes(['author' => ['id', 'name', 'password']])
+                            ->hiddenFields(['attachment'])
                             ->bulkActions(['publish', 'delete'])
                             ->description('Blog articles.'),
                     ])

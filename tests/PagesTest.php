@@ -117,6 +117,18 @@ it('offers only full-access tokens while no resource is exposed', function (): v
     expect(ApiToken::query()->sole()->getAbilities())->toBe(['*']);
 });
 
+it('lays the ability lists out across the whole token modal', function (): void {
+    actingAs(apiUser());
+
+    $props = apiPageProps('/api-admin/api-tokens');
+    $response = get('/api-admin/_alfakit/actions/modal?'.http_build_query(['token' => $props['token'], 'component' => 'page', 'action' => 'createToken']), ['Referer' => 'http://localhost/api-admin/api-tokens']);
+    $grid = collect($response->assertOk()->json('form.components'))->firstWhere('type', 'Grid');
+
+    // A half-width cell of the two-column modal squeezed the lists out of the modal.
+    expect($grid)->not->toBeNull()
+        ->and($grid['columnSpan']['default'] ?? null)->toBe('full');
+});
+
 it('lists and revokes only the user\'s own tokens', function (): void {
     $ada = apiUser('Ada');
     $bob = apiUser('Bob');

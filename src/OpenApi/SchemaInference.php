@@ -9,6 +9,7 @@ use AlfaSix\Alfakit\Forms\Components\CheckboxList;
 use AlfaSix\Alfakit\Forms\Components\DatePicker;
 use AlfaSix\Alfakit\Forms\Components\DateTimePicker;
 use AlfaSix\Alfakit\Forms\Components\Field;
+use AlfaSix\Alfakit\Forms\Components\FileUpload;
 use AlfaSix\Alfakit\Forms\Components\KeyValue;
 use AlfaSix\Alfakit\Forms\Components\Radio;
 use AlfaSix\Alfakit\Forms\Components\Repeater;
@@ -51,7 +52,7 @@ final class SchemaInference
             $path = (string) $path;
 
             // Nested state (`address.street`) and repeater items are described by their root.
-            if (str_contains($path, '.') || $field->isNestedInRepeater($form) || $field->isDisabled() || $field->isReadOnly()) {
+            if (str_contains($path, '.') || $field instanceof FileUpload || $field->isNestedInRepeater($form) || $field->isDisabled() || $field->isReadOnly()) {
                 continue;
             }
 
