@@ -496,7 +496,7 @@ class ApiPlugin implements Plugin
 
     public function userCanManageTokens(): bool
     {
-        return (bool) $this->evaluate($this->canManageTokens);
+        return $this->evaluateUserAuthorization($this->canManageTokens);
     }
 
     // ---------------------------------------------------------------- Pages
@@ -553,7 +553,7 @@ class ApiPlugin implements Plugin
 
     public function userCanViewDocumentation(): bool
     {
-        return (bool) $this->evaluate($this->canViewDocumentation);
+        return $this->evaluateUserAuthorization($this->canViewDocumentation);
     }
 
     /**
